@@ -34,37 +34,36 @@
                                 >Knjige</router-link
                             >
                         </li>
+                        <li class="nav-item">
+                            <router-link
+                                class="nav-link text-dark"
+                                to="/contact"
+                                >Kontakt</router-link
+                            >
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <button class="btn btn-sm bg-transparent">
-                                <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="25"
-                                height="25"
-                                fill="currentColor"
-                                class="bi bi-cart2 me-2"
-                                viewBox="0 0 16 16"
+                            <router-link
+                                to="/cart"
+                                class="btn btn-sm bg-transparent"
                             >
-                                <path
-                                    d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"
-                                />
-                            </svg>
-                            </button>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="25"
+                                    height="25"
+                                    fill="currentColor"
+                                    class="bi bi-cart2 me-2"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path
+                                        d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"
+                                    />
+                                </svg>
+                            </router-link>
                         </li>
                     </ul>
 
-                    <form class="d-flex" role="search">
-                        <input
-                            class="form-control me-2 text-dark shadow-none searchBar"
-                            type="search"
-                            placeholder="Pretrazi knjige..."
-                            aria-label="Search"
-                        />
-                        <button class="btn btn-outline-dark" type="submit">
-                            Search
-                        </button>
-                    </form>
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown" v-if="isLogged">
                             <a
@@ -107,6 +106,7 @@
             </div>
         </nav>
     </div>
+
 </template>
 
 <script>
@@ -116,6 +116,7 @@ export default {
         return {
             isLogged: false,
             user: [],
+            text: "",
         };
     },
     created() {
@@ -127,14 +128,20 @@ export default {
                 .get("/prijavljen")
                 .then((response) => {
                     this.user = response.data.user;
-                    this.isLogged = true;
-                    if (this.isLogged == true) {
-                        console.log("PRIJAVLJEN JE KORISNIK", this.user);
+
+                    console.log("PRIJAVLJEN JE KORISNIK", this.user);
+
+                    if (this.user === null) {
+                        this.isLogged = false;
+                    } else {
+                        this.isLogged = true;
                     }
                 })
                 .catch((error) => {
                     console.log(error);
-                });
+                }).finally(() => {
+                    this.spinner = false;
+                });;
         },
         odjava() {
             axios
@@ -142,6 +149,23 @@ export default {
                 .then((response) => {
                     this.isLogged = false;
                     this.$router.push("/");
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        pretraziKnjige() {
+            axios
+                .get("/pretraga", { params: { text: this.text } })
+                .then((response) => {
+                    const results = response.data.results;
+
+                    console.log("Rezultati pretrage", results);
+
+                    this.$router.push({
+                        name: "pretraga",
+                        query: { results: JSON.stringify(results) },
+                    });
                 })
                 .catch((error) => {
                     console.log(error);

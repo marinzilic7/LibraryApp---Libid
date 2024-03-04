@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="position-fixed shadow-lg  bottom-0 w-100" style="background-color: #F0F2F5;" >
-            <div class="d-flex justify-content-center align-items-center gap-5 footer-items shadow-lg" >
+        <div class="position-fixed shadow-lg  bottom-0 w-100" style="background-color: #03151E;" >
+            <div class="d-flex justify-content-center text-light align-items-center gap-5 footer-items shadow-lg" >
                 <p class="text-center mt-3  ">
                     Copyright © Ime prezime & Ime Prezime | 2024
                 </p>
@@ -50,24 +50,23 @@ export default {
     }
 }
 
-/* Ekran između 576 i 767 piksela */
+
 @media screen and (min-width: 576px) and (max-width: 767.98px) {
-  /* Vaši stilovi ovdje */
+
 }
 
-/* Ekran između 768 i 991 piksela */
+
 @media screen and (min-width: 768px) and (max-width: 991.98px) {
-  /* Vaši stilovi ovdje */
+
 }
 
-/* Ekran između 992 i 1199 piksela */
 @media screen and (min-width: 992px) and (max-width: 1199.98px) {
-  /* Vaši stilovi ovdje */
+
 }
 
-/* Ekran veći ili jednak 1200 piksela */
+
 @media screen and (min-width: 1200px) {
-  /* Vaši stilovi ovdje */
+
 }
 
 

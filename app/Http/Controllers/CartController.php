@@ -26,4 +26,16 @@ class CartController extends Controller
 
         return response()->json(['poruka' => 'Uspješno dodano u korpu!']);
     }
+
+    public function dohvatiKosaricu(){
+        $korisnik = Auth::user();
+        $kosarica = Cart::with('book')->where('user_id', $korisnik->id)->get();
+        return response()->json(['kosarica' => $kosarica]);
+    }
+
+    public function izbrisiKosaricu($id){
+        $kosarica = Cart::find($id);
+        $kosarica->delete();
+        return response()->json(['poruka' => 'Knjiga uspješno izbrisana iz korpe'], 201);
+    }
 }

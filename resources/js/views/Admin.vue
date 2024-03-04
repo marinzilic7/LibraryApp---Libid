@@ -20,7 +20,8 @@ import Bottom from "../components/Bottom.vue";
 
     <div  v-if="user.uloga === 'admin'" class="container d-flex justify-content-center align-items-center">
         <div class="col-12">
-            <ol class="list-group list-group-numbered">
+            <h1 class="text-center mb-3">Admin panel</h1>
+            <ol class="list-group list-group-numbered shadow-lg">
                 <li
                     class="list-group-item d-flex justify-content-between align-items-start"
                 >

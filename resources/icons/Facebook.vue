@@ -4,7 +4,7 @@
         width="25"
         height="25"
         fill="currentColor"
-        class="bi bi-facebook text-dark"
+        class="bi bi-facebook text-light"
         viewBox="0 0 16 16"
     >
         <path

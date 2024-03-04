@@ -4,6 +4,9 @@ import Registracija from '../views/Registracija.vue'
 import Pocetna from '../views/Pocetna.vue'
 import Knjiga from '../views/Knjiga.vue'
 import Admin from '../views/Admin.vue'
+import Kosarica from '../views/Kosarica.vue'
+import Kontakt from '../views/Kontakt.vue'
+
 
 
 const router = createRouter({
@@ -35,6 +38,18 @@ const router = createRouter({
             name:'admin',
             component: Admin
         },
+        {
+            path:'/contact',
+            name:'contact',
+            component: Kontakt
+        },
+        {
+            path:'/cart',
+            name:'cart',
+            component: Kosarica
+        },
+
+
 
     ]
 })

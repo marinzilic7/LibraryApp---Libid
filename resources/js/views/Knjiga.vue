@@ -5,11 +5,22 @@ import Bottom from "../components/Bottom.vue";
 
 <template>
     <Navigacija />
-    <div v-if="jelDodano" class="alert alert-light col-12 col-lg-3 col-md-3 col-sm-4 text-dark shadow-lg text-center end-0 me-3 mt-3 position-absolute z-1">
+    <div
+        v-if="jelDodano"
+        class="alert alert-light col-12 col-lg-3 col-md-3 col-sm-4 text-dark shadow-lg text-center end-0 me-3 mt-3 position-absolute z-1"
+    >
         Ova knjiga je već dodana u vašu košaricu.
     </div>
-    <div class="ms-3 mt-5 d-flex gap-5 flex-wrap">
-        <div v-for="knjiga in knjige" class="card" style="width: 15rem">
+
+    <div
+        v-if="uspjesno"
+        class="alert alert-light col-12 col-lg-3 col-md-3 col-sm-4 text-dark shadow-lg text-center end-0 me-3 mt-3 position-absolute z-1"
+    >
+        Knjiga dodana u kosaricu
+    </div>
+
+    <div class="ms-3 mt-5 d-flex gap-5 flex-wrap" style="margin-bottom: 100px !important;">
+        <div v-for="knjiga in knjige" class="card" style="width: 15rem; ">
             <img
                 :src="'/images/' + knjiga.image"
                 class="card-img-top"
@@ -47,6 +58,7 @@ import Bottom from "../components/Bottom.vue";
                         fill="currentColor"
                         class="bi bi-cart-check text-success"
                         viewBox="0 0 16 16"
+                        v-if="isLogged"
                         @click="dodajKosaricu(knjiga.id)"
                     >
                         <path
@@ -68,11 +80,15 @@ export default {
     data() {
         return {
             knjige: [],
-            jelDodano:false,
+            jelDodano: false,
+            user: [],
+            isLogged: false,
+            uspjesno:false,
         };
     },
     created() {
         this.dohvatiKnjige();
+        this.jelPrijavljen();
     },
     methods: {
         dohvatiKnjige() {
@@ -90,12 +106,37 @@ export default {
             axios
                 .post(`/dodajKosaricu/${id}`)
                 .then((response) => {
+                    this.uspjesno = true;
+                    setTimeout(() => {
+                        this.uspjesno = false;
+                    }, 2000);
                     console.log(response);
                 })
                 .catch((error) => {
                     this.poruka = error.response.data.poruka;
                     this.jelDodano = true;
+                    setTimeout(() => {
+                        this.jelDodano = false;
+                    }, 2000);
                     console.log(this.poruka);
+                });
+        },
+        jelPrijavljen() {
+            axios
+                .get("/prijavljen")
+                .then((response) => {
+                    this.user = response.data.user;
+
+                    if (this.user === null) {
+                        this.isLogged = false;
+                    } else {
+                        this.isLogged = true;
+                    }
+
+                    console.log("PRIJAVLJEN JE KORISNIK", this.user);
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
         },
     },

@@ -27,6 +27,10 @@ Route::post('/urediKnjigu/{id}',[BookController::class,'urediKnjigu']);
 
 
 Route::post('/dodajKosaricu/{id}',[CartController::class,'dodajKosaricu']);
+Route::get('/dohvatiKosaricu', [CartController::class, 'dohvatiKosaricu']);
+Route::post('/izbrisiKosaricu/{id}',[CartController::class,'izbrisiKosaricu']);
+
+
 
 Route::get('/{any}', function () {
     return view('welcome');

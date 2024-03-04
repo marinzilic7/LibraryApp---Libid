@@ -4,7 +4,7 @@
         width="25"
         height="25"
         fill="currentColor"
-        class="bi bi-tiktok  text-dark"
+        class="bi bi-tiktok  text-light"
         viewBox="0 0 16 16"
     >
         <path
