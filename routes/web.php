@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,6 +17,9 @@ Route::get('/kategorije', [CategoryController::class, 'kategorije']);
 Route::post('/dodajKategoriju',[CategoryController::class,'dodajKategoriju']);
 Route::post('/izbrisiKategoriju/{id}',[CategoryController::class,'izbrisiKategoriju']);
 
+
+Route::post('/dodajKnjigu',[BookController::class,'dodajKnjigu']);
+Route::get('/dohvatiKnjige', [BookController::class, 'dohvatiKnjige']);
 
 Route::get('/{any}', function () {
     return view('welcome');

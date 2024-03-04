@@ -48,7 +48,12 @@ import Bottom from "../components/Bottom.vue";
                         <div class="fw-bold">Knjige</div>
                         Pregled svih knjiga, dodavanje, uređivanje, brisanje...
                     </div>
-                    <button class="btn btn-outline-dark btn-sm mt-2">
+                    <button
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModalBooks"
+                        data-bs-whatever="@mdo"
+                        class="btn btn-outline-dark btn-sm mt-2"
+                    >
                         Pregled
                     </button>
                 </li>
@@ -155,41 +160,49 @@ import Bottom from "../components/Bottom.vue";
                     ></button>
                 </div>
                 <div class="modal-body">
-
                     <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Ime</th>
-                                        <th scope="col">Opis</th>
-                                        <th scope="col">Dodao</th>
-                                        <th scope="col">Datum dodavanja</th>
-                                        <th scope="col">Izbrisi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="kategorija in kategorije">
-                                        <th scope="row">{{ kategorija.id }}</th>
-                                        <td>{{ kategorija.ime }}</td>
-                                        <td>{{ kategorija.opis }}</td>
-                                        <td>{{ kategorija.user.ime}} {{ kategorija.user.prezime }}</td>
-                                        <td>{{ formatirajDatum(kategorija.created_at) }}</td>
-                                        <td>
-                                            <button
-                                                class="btn btn-outline-danger btn-sm"
-                                                @click="
-                                                    izbrisiKategoriju(kategorija.id)
-                                                "
-                                            >
-                                                Izbrisi
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <hr class="mt-3 mb-3 fw-bold">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Ime</th>
+                                    <th scope="col">Opis</th>
+                                    <th scope="col">Dodao</th>
+                                    <th scope="col">Datum dodavanja</th>
+                                    <th scope="col">Izbrisi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="kategorija in kategorije">
+                                    <th scope="row">{{ kategorija.id }}</th>
+                                    <td>{{ kategorija.ime }}</td>
+                                    <td>{{ kategorija.opis }}</td>
+                                    <td>
+                                        {{ kategorija.user.ime }}
+                                        {{ kategorija.user.prezime }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            formatirajDatum(
+                                                kategorija.created_at
+                                            )
+                                        }}
+                                    </td>
+                                    <td>
+                                        <button
+                                            class="btn btn-outline-danger btn-sm"
+                                            @click="
+                                                izbrisiKategoriju(kategorija.id)
+                                            "
+                                        >
+                                            Izbrisi
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr class="mt-3 mb-3 fw-bold" />
                     <div
                         class="accordion accordion-flush"
                         id="accordionFlushExample"
@@ -291,12 +304,359 @@ import Bottom from "../components/Bottom.vue";
             </div>
         </div>
     </div>
+    <!-- MODAL ZA KNJIGE -->
+
+    <div
+        class="modal fade modal-fullscreen"
+        id="exampleModalBooks"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Pregled svih knjiga
+                    </h1>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Ime</th>
+                                    <th scope="col">Opis</th>
+                                    <th scope="col">Autor</th>
+                                    <th scope="col">Godina</th>
+                                    <th scope="col">Cijena</th>
+                                    <th scope="col">Kategorija</th>
+                                    <th scope="col">Slika</th>
+                                    <th scope="col">Dodao</th>
+                                    <th scope="col">Datum i vr. dodavanja</th>
+                                    <th scope="col">Izbrisi</th>
+                                    <th scope="col">Uredi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="knjiga in knjige">
+                                    <th class="centered-content" scope="row">{{ knjiga.id }}</th>
+                                    <td class="centered-content">{{ knjiga.ime }}</td>
+                                    <td class="centered-content">{{ knjiga.opis }}</td>
+                                    <td class="centered-content">{{ knjiga.autor }}</td>
+                                    <td class="centered-content">{{ knjiga.godina }}</td>
+                                    <td class="centered-content">{{ knjiga.cijena }}</td>
+                                    <td class="centered-content">{{ knjiga.category.ime }}</td>
+                                    <td class="centered-content">
+                                        <img
+                                            :src="'/images/' + knjiga.image"
+                                            alt=""
+                                            class="img-thumbnail"
+                                            style="width: 50px"
+                                        />
+                                    </td>
+                                    <td class="centered-content">
+                                        {{ knjiga.user.ime }}
+                                        {{ knjiga.user.prezime }}
+                                    </td>
+                                    <td class="centered-content">
+                                        {{
+                                            formatirajDatum(
+                                                knjiga.created_at
+                                            )
+                                        }}
+                                    </td>
+                                    <td class="">
+                                        <button
+                                            class="btn btn-outline-danger btn-sm"
+                                            @click="
+                                                izbrisiKnjigu(knjiga.id)
+                                            "
+                                        >
+                                            Izbrisi
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button
+                                            class="btn btn-outline-primary btn-sm"
+                                            @click="
+                                                urediKnjigu(knjiga.id)
+                                            "
+                                        >
+                                            Uredi
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr class="mt-3 mb-3 fw-bold" />
+                    <div
+                        class="accordion accordion-flush"
+                        id="accordionFlushExample"
+                    >
+                        <div class="accordion-item border">
+                            <h2 class="accordion-header">
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseOne"
+                                >
+                                    Dodaj Knjigu
+                                </button>
+                            </h2>
+                            <div
+                                id="flush-collapseOne"
+                                class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample"
+                            >
+                                <div class="accordion-body">
+                                    <form @submit.prevent="dodajKnjigu()">
+                                        <div
+                                            class="input-group input-group-sm mb-3"
+                                        >
+                                            <span
+                                                class="input-group-text"
+                                                id="inputGroup-sizing-sm"
+                                                >Ime Knjige</span
+                                            >
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                aria-label="Sizing example input"
+                                                aria-describedby="inputGroup-sizing-sm"
+                                                v-model="book.ime"
+                                                :class="{
+                                                    'is-invalid': errors.ime,
+                                                }"
+                                            />
+                                            <div class="invalid-feedback">
+                                                <p
+                                                    v-if="errors.ime"
+                                                    class="text-danger"
+                                                >
+                                                    {{ errors.ime[0] }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="input-group input-group-sm mb-3"
+                                        >
+                                            <span
+                                                class="input-group-text"
+                                                id="inputGroup-sizing-sm"
+                                                >Opis knjige</span
+                                            >
+                                            <textarea
+                                                class="form-control"
+                                                placeholder="Ovdje dodajte opis kategorije..."
+                                                v-model="book.opis"
+                                                :class="{
+                                                    'is-invalid': errors.opis,
+                                                }"
+                                            ></textarea>
+                                            <div class="invalid-feedback">
+                                                <p
+                                                    v-if="errors.opis"
+                                                    class="text-danger"
+                                                >
+                                                    {{ errors.opis[0] }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="input-group input-group-sm mb-3"
+                                        >
+                                            <span
+                                                class="input-group-text"
+                                                id="inputGroup-sizing-sm"
+                                                >Autor</span
+                                            >
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                aria-label="Sizing example input"
+                                                aria-describedby="inputGroup-sizing-sm"
+                                                v-model="book.autor"
+                                                :class="{
+                                                    'is-invalid': errors.autor,
+                                                }"
+                                            />
+                                            <div class="invalid-feedback">
+                                                <p
+                                                    v-if="errors.autor"
+                                                    class="text-danger"
+                                                >
+                                                    {{ errors.autor[0] }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="input-group input-group-sm mb-3"
+                                        >
+                                            <span
+                                                class="input-group-text"
+                                                id="inputGroup-sizing-sm"
+                                                >Godina izdanja</span
+                                            >
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                aria-label="Sizing example input"
+                                                aria-describedby="inputGroup-sizing-sm"
+                                                v-model="book.godina_izdanja"
+                                                :class="{
+                                                    'is-invalid':
+                                                        errors.godina_izdanja,
+                                                }"
+                                            />
+                                            <div class="invalid-feedback">
+                                                <p
+                                                    v-if="errors.godina_izdanja"
+                                                    class="text-danger"
+                                                >
+                                                    {{
+                                                        errors.godina_izdanja[0]
+                                                    }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="input-group input-group-sm mb-3"
+                                        >
+                                            <span
+                                                class="input-group-text"
+                                                id="inputGroup-sizing-sm"
+                                                >Cijena</span
+                                            >
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                aria-label="Sizing example input"
+                                                aria-describedby="inputGroup-sizing-sm"
+                                                v-model="book.cijena"
+                                                :class="{
+                                                    'is-invalid': errors.cijena,
+                                                }"
+                                            />
+                                            <div class="invalid-feedback">
+                                                <p
+                                                    v-if="errors.cijena"
+                                                    class="text-danger"
+                                                >
+                                                    {{ errors.cijena[0] }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="input-group input-group-sm mb-3"
+                                        >
+                                            <span
+                                                class="input-group-text"
+                                                id="inputGroup-sizing-sm"
+                                                >Kategorija</span
+                                            >
+                                            <select
+                                                class="form-select"
+                                                id="trainSelect"
+                                                aria-label="Default select example"
+                                                v-model="book.category_id"
+                                                :class="{
+                                                    'is-invalid':
+                                                        errors.category_id,
+                                                }"
+                                            >
+                                                <option disabled value="">
+                                                    <p class="text-muted">
+                                                        Odaberite kategoriju
+                                                        knjige...
+                                                    </p>
+                                                </option>
+                                                <option
+                                                    v-for="kategorija in kategorije"
+                                                    :value="kategorija.id"
+                                                >
+                                                    {{ kategorija.ime }}
+                                                </option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                <p
+                                                    v-if="errors.category_id"
+                                                    class="text-danger"
+                                                >
+                                                    {{ errors.category_id[0] }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="input-group input-group-sm mb-3"
+                                        >
+                                            <span
+                                                class="input-group-text"
+                                                id="inputGroup-sizing-sm"
+                                                >Slika</span
+                                            >
+                                            <input
+                                                class="form-control form-control-sm"
+                                                id="formFileSm"
+                                                type="file"
+                                                ref="fileInput"
+                                                :class="{
+                                                    'is-invalid': errors.image,
+                                                }"
+                                                @change="slikaKnjige"
+                                            />
+                                            <div class="invalid-feedback">
+                                                <p
+                                                    v-if="errors.image"
+                                                    class="text-danger"
+                                                >
+                                                    {{ errors.image[0] }}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-outline-success"
+                                        >
+                                            Potvrdi
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <Bottom />
 </template>
 
 <script>
 import moment from "moment";
+import axios from "axios";
 
 export default {
     data() {
@@ -308,11 +668,22 @@ export default {
                 opis: "",
             },
             errors: {},
+            book: {
+                ime: "",
+                opis: "",
+                autor: "",
+                godina_izdanja: "",
+                category_id: "",
+                image: "",
+                cijena: "",
+            },
+            knjige:[],
         };
     },
     created() {
         this.getAllUsers();
         this.dohvatiKategorije();
+        this.dohvatiKnjige();
     },
     methods: {
         getAllUsers() {
@@ -363,7 +734,8 @@ export default {
                 .then((response) => {
                     console.log(response.data);
                     this.errors = {};
-
+                    this.kategorija.ime = "";
+                    this.kategorija.opis = "";
                     this.dohvatiKategorije();
                 })
                 .catch((error) => {
@@ -374,14 +746,63 @@ export default {
                     }
                 });
         },
-        izbrisiKategoriju(id){
-            axios.post(`/izbrisiKategoriju/${id}`).then((response) => {
-                this.poruka = response.data.poruka;
-                this.dohvatiKategorije();
-            }).catch((error) => {
-                console.log(error);
-            });
-        }
+        izbrisiKategoriju(id) {
+            axios
+                .post(`/izbrisiKategoriju/${id}`)
+                .then((response) => {
+                    this.poruka = response.data.poruka;
+                    this.dohvatiKategorije();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        slikaKnjige(event) {
+            this.book.image = event.target.files[0];
+        },
+        dodajKnjigu() {
+            const Knjiga = new FormData();
+            Knjiga.append("ime", this.book.ime);
+            Knjiga.append("opis", this.book.opis);
+            Knjiga.append("autor", this.book.autor);
+            Knjiga.append("godina_izdanja", this.book.godina_izdanja);
+            Knjiga.append("category_id", this.book.category_id);
+            Knjiga.append("image", this.book.image);
+            Knjiga.append("cijena", this.book.cijena);
+
+            axios
+                .post("/dodajKnjigu", Knjiga)
+                .then((response) => {
+                    console.log(response.data);
+                    this.book.ime = "";
+                    this.book.opis = "";
+                    this.book.autor = "";
+                    this.book.godina_izdanja = "";
+                    this.book.category_id = "";
+                    this.$refs.fileInput.value = "";
+                    this.book.cijena = "";
+                    this.errors = {};
+                    this.dohvatiKnjige();
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status === 422) {
+                        this.errors = error.response.data.errors;
+                    } else {
+                        console.log(error);
+                    }
+                });
+        },
+        dohvatiKnjige() {
+            axios
+                .get("/dohvatiKnjige")
+                .then((response) => {
+                    this.knjige = response.data.knjige;
+                    console.log("Ovo su knjige", this.knjige);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
     },
 };
 </script>
@@ -389,5 +810,9 @@ export default {
 <style scoped>
 .container {
     height: 400px;
+}
+
+.centered-content {
+  vertical-align: middle;
 }
 </style>
