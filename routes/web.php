@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -8,6 +9,13 @@ Route::post('/registracija',[UserController::class,'registracija']);
 Route::post('/prijava',[UserController::class,'prijava']);
 Route::get('/prijavljen',[UserController::class,'prijavljen']);
 Route::post('/odjava',[UserController::class,'odjava']);
+Route::get('/svikorisnici',[UserController::class,'dohvatikorisnike']);
+Route::post('/izbrisiKorisnika/{id}',[UserController::class,'izbrisiKorisnika']);
+
+Route::get('/kategorije', [CategoryController::class, 'kategorije']);
+Route::post('/dodajKategoriju',[CategoryController::class,'dodajKategoriju']);
+Route::post('/izbrisiKategoriju/{id}',[CategoryController::class,'izbrisiKategoriju']);
+
 
 Route::get('/{any}', function () {
     return view('welcome');

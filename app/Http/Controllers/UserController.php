@@ -70,4 +70,16 @@ class UserController extends Controller
         Auth::logout();
         return response()->json(['message' => 'Uspjesna odjava']);
     }
+
+
+    public function dohvatikorisnike(){
+        $allUsers = User::get();
+        return response()->json(['allUsers' => $allUsers]);
+    }
+
+    public function izbrisiKorisnika($id){
+        $korisnik = User::findorFail($id);
+        $korisnik->delete();
+        return response()->json(['poruka' => 'Korisnik izbrisan']);
+    }
 }

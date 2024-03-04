@@ -11,5 +11,11 @@ class User extends Model implements Authenticatable
 {
     use AuthenticatableTrait;
     protected $fillable = ['ime', 'prezime', 'email', 'password', 'uloga'];
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
     use HasFactory;
 }

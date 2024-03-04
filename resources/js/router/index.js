@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Prijava from '../views/Prijava.vue'
 import Registracija from '../views/Registracija.vue'
 import Pocetna from '../views/Pocetna.vue'
+import Knjiga from '../views/Knjiga.vue'
 import Admin from '../views/Admin.vue'
 
 
@@ -25,10 +26,16 @@ const router = createRouter({
             component: Pocetna
         },
         {
-            path: '/admin',
-            name: 'admin',
+            path:'/books',
+            name:'books',
+            component: Knjiga
+        },
+        {
+            path:'/admin',
+            name:'admin',
             component: Admin
         },
+
     ]
 })
 

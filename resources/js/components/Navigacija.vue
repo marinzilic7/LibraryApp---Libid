@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg shadow-lg bg-body-light">
+        <nav class="navbar navbar-expand-lg shadow-lg">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"
                     ><img src="../images/logo.png" height="25px" alt=""
@@ -95,6 +95,7 @@
                                         to="/admin"
                                         >Administracija</router-link
                                     >
+
                                 </li>
                                 <li class="dropdown-item">
                                     <a
