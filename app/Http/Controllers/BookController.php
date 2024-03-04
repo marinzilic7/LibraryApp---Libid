@@ -51,4 +51,62 @@ class BookController extends Controller
         $knjige = Book::with('user','category')->get();
         return response()->json(['knjige' => $knjige]);
     }
+
+    public function izbrisiKnjigu($id){
+        $knjiga = Book::find($id);
+        $knjiga->delete();
+        return response()->json(['poruka' => 'Knjiga uspješno izbrisana'], 201);
+    }
+
+    public function urediKnjigu(Request $request, $id){
+        $knjiga = Book::findOrFail($id);
+        $data = $request->validate([
+            'ime' => 'required',
+            'opis' => 'required',
+            'autor' => 'required',
+            'godina_izdanja' => 'required',
+            'category_id' => 'required',
+            'cijena' => 'required',
+            'image' => 'required',
+
+        ],
+        [
+            'ime.required' => 'Ime je obavezno polje',
+            'opis.required' => 'Opis je obavezno polje',
+            'autor.required' => 'Autor je obavezno polje',
+            'godina_izdanja.required' => 'Godina izdanja je obavezno polje',
+            'cijena.required' => 'Cijena je obavezno polje',
+            'image.required' => 'Slika knjige je obavezna',
+            'category_id.required' => 'Kategorija je obavezno polje',
+        ]
+
+        );
+
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $name);
+            $data['image'] = $name;
+        }
+
+
+        DB::table('books')
+    ->where('id', $id)
+    ->update([
+        'ime' => $data['ime'],
+        'opis' => $data['opis'],
+        'autor' => $data['autor'],
+        'godina_izdanja' => $data['godina_izdanja'],
+        'category_id' => $data['category_id'],
+        'cijena' => $data['cijena'],
+        'image' => $data['image']
+    ]);
+
+        $knjiga->save();
+        return response()->json([
+            'poruka' => 'Uspjesno uredjeno',
+            'knjiga' => $knjiga,
+        ]);
+    }
 }

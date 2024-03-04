@@ -20,6 +20,8 @@ Route::post('/izbrisiKategoriju/{id}',[CategoryController::class,'izbrisiKategor
 
 Route::post('/dodajKnjigu',[BookController::class,'dodajKnjigu']);
 Route::get('/dohvatiKnjige', [BookController::class, 'dohvatiKnjige']);
+Route::post('/izbrisiKnjigu/{id}',[BookController::class,'izbrisiKnjigu']);
+Route::post('/urediKnjigu/{id}',[BookController::class,'urediKnjigu']);
 
 Route::get('/{any}', function () {
     return view('welcome');

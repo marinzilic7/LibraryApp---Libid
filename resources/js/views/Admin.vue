@@ -347,13 +347,27 @@ import Bottom from "../components/Bottom.vue";
                             </thead>
                             <tbody>
                                 <tr v-for="knjiga in knjige">
-                                    <th class="centered-content" scope="row">{{ knjiga.id }}</th>
-                                    <td class="centered-content">{{ knjiga.ime }}</td>
-                                    <td class="centered-content">{{ knjiga.opis }}</td>
-                                    <td class="centered-content">{{ knjiga.autor }}</td>
-                                    <td class="centered-content">{{ knjiga.godina }}</td>
-                                    <td class="centered-content">{{ knjiga.cijena }}</td>
-                                    <td class="centered-content">{{ knjiga.category.ime }}</td>
+                                    <th class="centered-content" scope="row">
+                                        {{ knjiga.id }}
+                                    </th>
+                                    <td class="centered-content">
+                                        {{ knjiga.ime }}
+                                    </td>
+                                    <td class="centered-content">
+                                        {{ knjiga.opis }}
+                                    </td>
+                                    <td class="centered-content">
+                                        {{ knjiga.autor }}
+                                    </td>
+                                    <td class="centered-content">
+                                        {{ knjiga.godina_izdanja }}
+                                    </td>
+                                    <td class="centered-content">
+                                        {{ knjiga.cijena }}
+                                    </td>
+                                    <td class="centered-content">
+                                        {{ knjiga.category.ime }}
+                                    </td>
                                     <td class="centered-content">
                                         <img
                                             :src="'/images/' + knjiga.image"
@@ -367,18 +381,12 @@ import Bottom from "../components/Bottom.vue";
                                         {{ knjiga.user.prezime }}
                                     </td>
                                     <td class="centered-content">
-                                        {{
-                                            formatirajDatum(
-                                                knjiga.created_at
-                                            )
-                                        }}
+                                        {{ formatirajDatum(knjiga.created_at) }}
                                     </td>
                                     <td class="">
                                         <button
                                             class="btn btn-outline-danger btn-sm"
-                                            @click="
-                                                izbrisiKnjigu(knjiga.id)
-                                            "
+                                            @click="izbrisiKnjigu(knjiga.id)"
                                         >
                                             Izbrisi
                                         </button>
@@ -386,13 +394,302 @@ import Bottom from "../components/Bottom.vue";
                                     <td>
                                         <button
                                             class="btn btn-outline-primary btn-sm"
-                                            @click="
-                                                urediKnjigu(knjiga.id)
+                                            type="button"
+                                            data-bs-toggle="offcanvas"
+                                            :data-bs-target="
+                                                '#offcanvasExample' + knjiga.id
                                             "
+                                            aria-controls="offcanvasExample"
+                                            @click="urediKnjigu(knjiga)"
                                         >
-                                            Uredi
+                                            Uredi knjigu
                                         </button>
                                     </td>
+
+                                    <div
+                                        class="offcanvas offcanvas-start"
+                                        tabindex="-1"
+                                        :id="'offcanvasExample' + knjiga.id"
+                                        aria-labelledby="offcanvasExampleLabel"
+                                    >
+                                        <div class="offcanvas-header">
+                                            <h5
+                                                class="offcanvas-title"
+                                                id="offcanvasExampleLabel"
+                                            >
+                                                Uredi knjigu
+                                            </h5>
+                                            <button
+                                                type="button"
+                                                class="btn-close text-reset"
+                                                data-bs-dismiss="offcanvas"
+                                                aria-label="Close"
+                                            ></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+                                            <form
+                                                @submit.prevent="
+                                                    potvrdiUredjivanje(
+                                                        knjiga.id
+                                                    )
+                                                "
+                                            >
+                                                <div
+                                                    class="input-group input-group-sm mb-3"
+                                                >
+                                                    <span
+                                                        class="input-group-text"
+                                                        id="inputGroup-sizing-sm"
+                                                        >Ime</span
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        id="recipient-name"
+                                                        v-model="
+                                                            urediKnjige.ime
+                                                        "
+                                                         :class="{
+                                                            'is-invalid':
+                                                                errors.ime,
+                                                        }"
+                                                    />
+                                                    <div
+                                                        class="invalid-feedback"
+                                                    >
+                                                        <p
+                                                            v-if="errors.ime"
+                                                            class="text-danger"
+                                                        >
+                                                            {{
+                                                                errors.ime[0]
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="input-group input-group-sm mb-3"
+                                                >
+                                                    <span
+                                                        class="input-group-text"
+                                                        id="inputGroup-sizing-sm"
+                                                        >Opis</span
+                                                    >
+                                                    <textarea
+                                                        class="form-control"
+                                                        id="message-text"
+                                                        v-model="
+                                                            urediKnjige.opis
+                                                        "
+                                                         :class="{
+                                                            'is-invalid':
+                                                                errors.opis,
+                                                        }"
+                                                    ></textarea>
+                                                    <div
+                                                        class="invalid-feedback"
+                                                    >
+                                                        <p
+                                                            v-if="errors.opis"
+                                                            class="text-danger"
+                                                        >
+                                                            {{
+                                                                errors.opis[0]
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="input-group input-group-sm mb-3"
+                                                >
+                                                    <span
+                                                        class="input-group-text"
+                                                        id="inputGroup-sizing-sm"
+                                                        >Autor</span
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        id="recipient-name"
+                                                        v-model="
+                                                            urediKnjige.autor
+                                                        "
+                                                         :class="{
+                                                            'is-invalid':
+                                                                errors.autor,
+                                                        }"
+                                                    />
+                                                    <div
+                                                        class="invalid-feedback"
+                                                    >
+                                                        <p
+                                                            v-if="errors.autor"
+                                                            class="text-danger"
+                                                        >
+                                                            {{
+                                                                errors.autor[0]
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="input-group input-group-sm mb-3"
+                                                >
+                                                    <span
+                                                        class="input-group-text"
+                                                        id="inputGroup-sizing-sm"
+                                                        >Godina</span
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        id="recipient-name"
+                                                        v-model="
+                                                            urediKnjige.godina_izdanja
+                                                        "
+                                                         :class="{
+                                                            'is-invalid':
+                                                                errors.godina_izdanja,
+                                                        }"
+
+                                                    />
+                                                    <div
+                                                        class="invalid-feedback"
+                                                    >
+                                                        <p
+                                                            v-if="errors.godina_izdanja"
+                                                            class="text-danger"
+                                                        >
+                                                            {{
+                                                                errors.godina_izdanja[0]
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="input-group input-group-sm mb-3"
+                                                >
+                                                    <span
+                                                        class="input-group-text"
+                                                        id="inputGroup-sizing-sm"
+                                                        >Cijena</span
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        id="recipient-name"
+                                                        :class="{
+                                                            'is-invalid':
+                                                                errors.cijena,
+                                                        }"
+                                                        v-model="
+                                                            urediKnjige.cijena
+                                                        "
+
+                                                    />
+
+                                                    <div
+                                                        class="invalid-feedback"
+                                                    >
+                                                        <p
+                                                            v-if="errors.cijena"
+                                                            class="text-danger"
+                                                        >
+                                                            {{
+                                                                errors.cijena[0]
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="input-group input-group-sm mb-3"
+                                                >
+                                                    <span
+                                                        class="input-group-text"
+                                                        id="inputGroup-sizing-sm"
+                                                        >Kategorija</span
+                                                    >
+                                                    <select
+                                                        class="form-select"
+                                                        id="trainSelect"
+                                                        aria-label="Default select example"
+                                                        v-model="
+                                                            urediKnjige.category_id
+                                                        "
+                                                         :class="{
+                                                            'is-invalid':
+                                                                errors.category_id,
+                                                        }"
+                                                    >
+                                                        <option
+                                                            disabled
+                                                            value=""
+                                                        >
+                                                            Kategorija
+                                                        </option>
+                                                        <option
+                                                            v-for="kategorija in kategorije"
+                                                            :value="
+                                                                kategorija.id
+                                                            "
+                                                        >
+                                                            {{ kategorija.ime }}
+                                                        </option>
+                                                    </select>
+                                                    <div
+                                                        class="invalid-feedback"
+                                                    >
+                                                        <p
+                                                            v-if="errors.category_id"
+                                                            class="text-danger"
+                                                        >
+                                                            {{
+                                                                errors.category_id[0]
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="input-group input-group-sm mb-3"
+                                                >
+                                                    <span
+                                                        class="input-group-text"
+                                                        id="inputGroup-sizing-sm"
+                                                        >Slika</span
+                                                    >
+                                                    <input
+                                                        class="form-control form-control-sm"
+                                                        id="formFileSm"
+                                                        :class="{
+                                                            'is-invalid':
+                                                                errors.image,
+                                                        }"
+                                                        type="file"
+                                                        @change="
+                                                            urediKnjiguSlika
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="invalid-feedback"
+                                                    >
+                                                        <p
+                                                            v-if="errors.image"
+                                                            class="text-danger"
+                                                        >
+                                                            {{
+                                                                errors.image[0]
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    class="btn btn-outline-success w-100 btn-sm"
+                                                >
+                                                    Potrvrdi
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </tr>
                             </tbody>
                         </table>
@@ -677,7 +974,17 @@ export default {
                 image: "",
                 cijena: "",
             },
-            knjige:[],
+            knjige: [],
+            urediKnjige: {
+                ime: "",
+                opis: "",
+                autor: "",
+                godina_izdanja: "",
+                category_id: "",
+                image: "",
+                cijena: "",
+            },
+            knjigaId: "",
         };
     },
     created() {
@@ -760,6 +1067,9 @@ export default {
         slikaKnjige(event) {
             this.book.image = event.target.files[0];
         },
+        urediKnjiguSlika(event) {
+            this.urediKnjige.image = event.target.files[0];
+        },
         dodajKnjigu() {
             const Knjiga = new FormData();
             Knjiga.append("ime", this.book.ime);
@@ -803,6 +1113,70 @@ export default {
                     console.log(error);
                 });
         },
+        izbrisiKnjigu(id) {
+            axios
+                .post(`/izbrisiKnjigu/${id}`)
+                .then((response) => {
+                    this.poruka = response.data.poruka;
+                    this.dohvatiKnjige();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+
+        urediKnjigu(knjiga) {
+            this.knjigaId = knjiga.id;
+            this.urediKnjige.ime = knjiga.ime;
+            this.urediKnjige.opis = knjiga.opis;
+            this.urediKnjige.autor = knjiga.autor;
+            this.urediKnjige.godina_izdanja = knjiga.godina_izdanja;
+            this.urediKnjige.category_id = knjiga.category_id;
+            this.urediKnjige.cijena = knjiga.cijena;
+            this.urediKnjigeimage = knjiga.image;
+            $("#exampleModalUredjivanje" + knjiga.id).modal("show");
+        },
+
+        potvrdiUredjivanje(id) {
+            let Knjiga = new FormData();
+            Knjiga.append("ime", this.urediKnjige.ime);
+            Knjiga.append("opis", this.urediKnjige.opis);
+            Knjiga.append("autor", this.urediKnjige.autor);
+            Knjiga.append("godina_izdanja", this.urediKnjige.godina_izdanja);
+            Knjiga.append("category_id", this.urediKnjige.category_id);
+            Knjiga.append("image", this.urediKnjige.image);
+            Knjiga.append("cijena", this.urediKnjige.cijena);
+
+            axios
+                .post(`/urediKnjigu/${id}`, Knjiga)
+                .then((response) => {
+                    this.poruka = response.data.poruka;
+
+                    const knjiga = response.data.knjiga;
+                    const index = this.knjige.findIndex(
+                        (knjiga) => knjiga.id === this.knjigaId
+                    );
+                    if (index !== -1) {
+                        this.knjige[index].ime = knjiga.ime;
+                        this.knjige[index].opis = knjiga.opis;
+                        this.knjige[index].autor = knjiga.autor;
+                        this.knjige[index].cijena = knjiga.cijena;
+                        this.knjige[index].category_id = knjiga.category_id;
+                        this.knjige[index].godina_izdanja =
+                            knjiga.godina_izdanja;
+                        this.knjige[index].image = knjiga.image;
+                    }
+                    this.dohvatiKnjige();
+                    $("#offcanvasExample" + this.knjigaId).offcanvas("hide");
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status === 422) {
+                        this.errors = error.response.data.errors;
+                    } else {
+                        console.log(error);
+                    }
+                });
+        },
     },
 };
 </script>
@@ -813,6 +1187,6 @@ export default {
 }
 
 .centered-content {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 </style>
