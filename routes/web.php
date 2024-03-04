@@ -3,6 +3,8 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CartController;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,6 +24,9 @@ Route::post('/dodajKnjigu',[BookController::class,'dodajKnjigu']);
 Route::get('/dohvatiKnjige', [BookController::class, 'dohvatiKnjige']);
 Route::post('/izbrisiKnjigu/{id}',[BookController::class,'izbrisiKnjigu']);
 Route::post('/urediKnjigu/{id}',[BookController::class,'urediKnjigu']);
+
+
+Route::post('/dodajKosaricu/{id}',[CartController::class,'dodajKosaricu']);
 
 Route::get('/{any}', function () {
     return view('welcome');

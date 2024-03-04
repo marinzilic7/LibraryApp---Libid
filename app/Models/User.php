@@ -22,5 +22,10 @@ class User extends Model implements Authenticatable
         return $this->hasMany(Book::class);
     }
 
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
     use HasFactory;
 }

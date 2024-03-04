@@ -5,7 +5,20 @@ import Bottom from "../components/Bottom.vue";
 
 <template>
     <Navigacija />
-    <div class="container d-flex justify-content-center align-items-center">
+
+    <div  v-if="spinner" class="container d-flex justify-content-center">
+        <div
+
+            class="spinner-border text-dark position-absolute top-50"
+            role="status"
+        >
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+
+
+    <div  v-if="user.uloga === 'admin'" class="container d-flex justify-content-center align-items-center">
         <div class="col-12">
             <ol class="list-group list-group-numbered">
                 <li
@@ -135,6 +148,10 @@ import Bottom from "../components/Bottom.vue";
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="mt-5 d-flex justify-content-center" v-else>
+        <div v-if="!spinner" class="alert alert-dark text-dark text-center col-12 col-lg-4 col-md-5 col-sm-5">Stranica nije pronadjena</div>
     </div>
 
     <!-- MODAL ZA KATEGORIJE -->
@@ -946,6 +963,7 @@ import Bottom from "../components/Bottom.vue";
                 </div>
             </div>
         </div>
+
     </div>
 
     <Bottom />
@@ -985,12 +1003,15 @@ export default {
                 cijena: "",
             },
             knjigaId: "",
+            user:[],
+            spinner: true
         };
     },
     created() {
         this.getAllUsers();
         this.dohvatiKategorije();
         this.dohvatiKnjige();
+        this.jelPrijavljen();
     },
     methods: {
         getAllUsers() {
@@ -1175,6 +1196,22 @@ export default {
                     } else {
                         console.log(error);
                     }
+                });
+        },
+        jelPrijavljen() {
+            axios
+                .get("/prijavljen")
+                .then((response) => {
+                    this.user = response.data.user;
+                    this.isLogged = true;
+                    if (this.isLogged == true) {
+                        console.log("PRIJAVLJEN JE KORISNIK", this.user);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                }).finally(() => {
+                    this.spinner = false;
                 });
         },
     },

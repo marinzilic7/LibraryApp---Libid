@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="position-fixed bg-light shadow-lg bottom-0 w-100">
-            <div class="d-flex justify-content-center align-items-center gap-5 footer-items">
-                <p class="text-center mt-3 ">
+        <div class="position-fixed shadow-lg  bottom-0 w-100" style="background-color: #F0F2F5;" >
+            <div class="d-flex justify-content-center align-items-center gap-5 footer-items shadow-lg" >
+                <p class="text-center mt-3  ">
                     Copyright © Ime prezime & Ime Prezime | 2024
                 </p>
                 <div class="d-flex gap-3 footer-icons">
