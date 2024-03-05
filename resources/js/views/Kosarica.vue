@@ -5,7 +5,9 @@ import Bottom from "../components/Bottom.vue";
 
 <template>
     <Navigacija />
-    <div class="container d-flex justify-content-center mt-5 flex-wrap">
+    <h1 class="text-center mt-3">Vaša košarica</h1>
+    <div class="container d-flex justify-content-center mt-5 flex-wrap" style="margin-bottom: 100px !important; ">
+
         <div
             v-for="cart in kosarica"
             class="card shadow-lg mb-3 col-8"

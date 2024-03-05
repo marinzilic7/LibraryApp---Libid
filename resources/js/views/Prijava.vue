@@ -53,7 +53,7 @@ import axios from 'axios';
                 <button type="submit" class="btn btn-primary w-100 shadow-none logBtn">Prijava</button>
                 <p class="text-center mt-3">Nemaš račun? <span><router-link class="text-decoration-underline" style="color:#0096B5" to="/register">Registriraj se</router-link></span></p>
                 <router-link to="/home" style="color:#0096B5; font-size: 13px;" class="text-center text-decoration-underline" ><p class="text-center">Pogledaj kao gost</p></router-link>
-                <div class="mt-3 alert alert-info" v-if="neuspjesnaPrijava">
+                <div class="mt-3 alert alert-info text-center" v-if="neuspjesnaPrijava">
                     Pogrešan email ili lozinka
                 </div>
             </form>

@@ -91,19 +91,17 @@ class BookController extends Controller
         }
 
 
-        DB::table('books')
-    ->where('id', $id)
-    ->update([
-        'ime' => $data['ime'],
-        'opis' => $data['opis'],
-        'autor' => $data['autor'],
-        'godina_izdanja' => $data['godina_izdanja'],
-        'category_id' => $data['category_id'],
-        'cijena' => $data['cijena'],
-        'image' => $data['image']
-    ]);
 
-        $knjiga->save();
+        $knjiga->update([
+            'ime' => $data['ime'],
+            'opis' => $data['opis'],
+            'autor' => $data['autor'],
+            'godina_izdanja' => $data['godina_izdanja'],
+            'category_id' => $data['category_id'],
+            'cijena' => $data['cijena'],
+            'image' => $data['image']
+        ]);
+
         return response()->json([
             'poruka' => 'Uspjesno uredjeno',
             'knjiga' => $knjiga,

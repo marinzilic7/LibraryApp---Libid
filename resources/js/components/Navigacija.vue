@@ -5,9 +5,9 @@
             style="background-color: #f0f2f5"
         >
             <div class="container-fluid">
-                <a class="navbar-brand" href="#"
+                <router-link to="/home" class="navbar-brand"
                     ><img src="../images/logo.png" height="25px" alt=""
-                /></a>
+                /></router-link>
                 <button
                     class="navbar-toggler"
                     type="button"

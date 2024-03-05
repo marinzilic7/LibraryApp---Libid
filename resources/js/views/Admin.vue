@@ -6,9 +6,8 @@ import Bottom from "../components/Bottom.vue";
 <template>
     <Navigacija />
 
-    <div  v-if="spinner" class="container d-flex justify-content-center">
+    <div v-if="spinner" class="container d-flex justify-content-center">
         <div
-
             class="spinner-border text-dark position-absolute top-50"
             role="status"
         >
@@ -16,9 +15,10 @@ import Bottom from "../components/Bottom.vue";
         </div>
     </div>
 
-
-
-    <div  v-if="user.uloga === 'admin'" class="container d-flex justify-content-center align-items-center">
+    <div
+        v-if="user.uloga === 'admin'"
+        class="container d-flex justify-content-center align-items-center"
+    >
         <div class="col-12">
             <h1 class="text-center mb-3">Admin panel</h1>
             <ol class="list-group list-group-numbered shadow-lg">
@@ -100,7 +100,7 @@ import Bottom from "../components/Bottom.vue";
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
-                                    <tr>
+                                    <tr class="items-table">
                                         <th scope="col">ID</th>
                                         <th scope="col">Ime</th>
                                         <th scope="col">Prezime</th>
@@ -111,13 +111,26 @@ import Bottom from "../components/Bottom.vue";
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="user in allUsers">
-                                        <th scope="row">{{ user.id }}</th>
-                                        <td>{{ user.ime }}</td>
-                                        <td>{{ user.prezime }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.uloga }}</td>
-                                        <td>
+                                    <tr
+                                        class="items-table"
+                                        v-for="user in allUsers"
+                                    >
+                                        <th class="text-muted" scope="row">
+                                            {{ user.id }}
+                                        </th>
+                                        <td class="text-muted">
+                                            {{ user.ime }}
+                                        </td>
+                                        <td class="text-muted">
+                                            {{ user.prezime }}
+                                        </td>
+                                        <td class="text-muted">
+                                            {{ user.email }}
+                                        </td>
+                                        <td class="text-muted">
+                                            {{ user.uloga }}
+                                        </td>
+                                        <td class="text-muted">
                                             {{
                                                 formatirajDatum(user.created_at)
                                             }}
@@ -127,6 +140,9 @@ import Bottom from "../components/Bottom.vue";
                                                 class="btn btn-outline-danger btn-sm"
                                                 @click="
                                                     izbrisiKorisnika(user.id)
+                                                "
+                                                :disabled="
+                                                    user.uloga === 'admin'
                                                 "
                                             >
                                                 Izbrisi
@@ -152,7 +168,12 @@ import Bottom from "../components/Bottom.vue";
     </div>
 
     <div class="mt-5 d-flex justify-content-center" v-else>
-        <div v-if="!spinner" class="alert alert-dark text-dark text-center col-12 col-lg-4 col-md-5 col-sm-5">Stranica nije pronadjena</div>
+        <div
+            v-if="!spinner"
+            class="alert alert-dark text-dark text-center col-12 col-lg-4 col-md-5 col-sm-5"
+        >
+            Stranica nije pronadjena
+        </div>
     </div>
 
     <!-- MODAL ZA KATEGORIJE -->
@@ -181,7 +202,7 @@ import Bottom from "../components/Bottom.vue";
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
-                                <tr>
+                                <tr class="items-table">
                                     <th scope="col">ID</th>
                                     <th scope="col">Ime</th>
                                     <th scope="col">Opis</th>
@@ -191,15 +212,24 @@ import Bottom from "../components/Bottom.vue";
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="kategorija in kategorije">
-                                    <th scope="row">{{ kategorija.id }}</th>
-                                    <td>{{ kategorija.ime }}</td>
-                                    <td>{{ kategorija.opis }}</td>
-                                    <td>
+                                <tr
+                                    class="items-table"
+                                    v-for="kategorija in kategorije"
+                                >
+                                    <th class="text-muted" scope="row">
+                                        {{ kategorija.id }}
+                                    </th>
+                                    <td class="text-muted">
+                                        {{ kategorija.ime }}
+                                    </td>
+                                    <td class="text-muted">
+                                        {{ kategorija.opis }}
+                                    </td>
+                                    <td class="text-muted">
                                         {{ kategorija.user.ime }}
                                         {{ kategorija.user.prezime }}
                                     </td>
-                                    <td>
+                                    <td class="text-muted">
                                         {{
                                             formatirajDatum(
                                                 kategorija.created_at
@@ -348,7 +378,7 @@ import Bottom from "../components/Bottom.vue";
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
-                                <tr>
+                                <tr class="items-table">
                                     <th scope="col">ID</th>
                                     <th scope="col">Ime</th>
                                     <th scope="col">Opis</th>
@@ -359,16 +389,23 @@ import Bottom from "../components/Bottom.vue";
                                     <th scope="col">Slika</th>
                                     <th scope="col">Dodao</th>
                                     <th scope="col">Datum i vr. dodavanja</th>
+                                    <th scope="col">Datum i vr. uredjivanja</th>
                                     <th scope="col">Izbrisi</th>
                                     <th scope="col">Uredi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="knjiga in knjige">
-                                    <th class="centered-content" scope="row">
+                                <tr
+                                    class="items-table"
+                                    v-for="knjiga in knjige"
+                                >
+                                    <th
+                                        class="centered-content text muted"
+                                        scope="row"
+                                    >
                                         {{ knjiga.id }}
                                     </th>
-                                    <td class="centered-content">
+                                    <td class="centered-content text muted">
                                         {{ knjiga.ime }}
                                     </td>
                                     <td class="centered-content">
@@ -401,9 +438,18 @@ import Bottom from "../components/Bottom.vue";
                                     <td class="centered-content">
                                         {{ formatirajDatum(knjiga.created_at) }}
                                     </td>
+                                    <td class="centered-content">
+                                        {{
+                                            knjiga.updated_at
+                                                ? formatirajDatum(
+                                                      knjiga.updated_at
+                                                  )
+                                                : "Nije uredjeno"
+                                        }}
+                                    </td>
                                     <td class="">
                                         <button
-                                            class="btn btn-outline-danger btn-sm"
+                                            class="btn btn-outline-danger btn-sm mt-3"
                                             @click="izbrisiKnjigu(knjiga.id)"
                                         >
                                             Izbrisi
@@ -411,7 +457,7 @@ import Bottom from "../components/Bottom.vue";
                                     </td>
                                     <td>
                                         <button
-                                            class="btn btn-outline-primary btn-sm"
+                                            class="btn btn-outline-primary btn-sm mt-3"
                                             type="button"
                                             data-bs-toggle="offcanvas"
                                             :data-bs-target="
@@ -420,7 +466,7 @@ import Bottom from "../components/Bottom.vue";
                                             aria-controls="offcanvasExample"
                                             @click="urediKnjigu(knjiga)"
                                         >
-                                            Uredi knjigu
+                                            Uredi
                                         </button>
                                     </td>
 
@@ -467,7 +513,7 @@ import Bottom from "../components/Bottom.vue";
                                                         v-model="
                                                             urediKnjige.ime
                                                         "
-                                                         :class="{
+                                                        :class="{
                                                             'is-invalid':
                                                                 errors.ime,
                                                         }"
@@ -479,9 +525,7 @@ import Bottom from "../components/Bottom.vue";
                                                             v-if="errors.ime"
                                                             class="text-danger"
                                                         >
-                                                            {{
-                                                                errors.ime[0]
-                                                            }}
+                                                            {{ errors.ime[0] }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -499,7 +543,7 @@ import Bottom from "../components/Bottom.vue";
                                                         v-model="
                                                             urediKnjige.opis
                                                         "
-                                                         :class="{
+                                                        :class="{
                                                             'is-invalid':
                                                                 errors.opis,
                                                         }"
@@ -511,9 +555,7 @@ import Bottom from "../components/Bottom.vue";
                                                             v-if="errors.opis"
                                                             class="text-danger"
                                                         >
-                                                            {{
-                                                                errors.opis[0]
-                                                            }}
+                                                            {{ errors.opis[0] }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -532,7 +574,7 @@ import Bottom from "../components/Bottom.vue";
                                                         v-model="
                                                             urediKnjige.autor
                                                         "
-                                                         :class="{
+                                                        :class="{
                                                             'is-invalid':
                                                                 errors.autor,
                                                         }"
@@ -565,21 +607,23 @@ import Bottom from "../components/Bottom.vue";
                                                         v-model="
                                                             urediKnjige.godina_izdanja
                                                         "
-                                                         :class="{
+                                                        :class="{
                                                             'is-invalid':
                                                                 errors.godina_izdanja,
                                                         }"
-
                                                     />
                                                     <div
                                                         class="invalid-feedback"
                                                     >
                                                         <p
-                                                            v-if="errors.godina_izdanja"
+                                                            v-if="
+                                                                errors.godina_izdanja
+                                                            "
                                                             class="text-danger"
                                                         >
                                                             {{
-                                                                errors.godina_izdanja[0]
+                                                                errors
+                                                                    .godina_izdanja[0]
                                                             }}
                                                         </p>
                                                     </div>
@@ -603,7 +647,6 @@ import Bottom from "../components/Bottom.vue";
                                                         v-model="
                                                             urediKnjige.cijena
                                                         "
-
                                                     />
 
                                                     <div
@@ -634,7 +677,7 @@ import Bottom from "../components/Bottom.vue";
                                                         v-model="
                                                             urediKnjige.category_id
                                                         "
-                                                         :class="{
+                                                        :class="{
                                                             'is-invalid':
                                                                 errors.category_id,
                                                         }"
@@ -658,11 +701,14 @@ import Bottom from "../components/Bottom.vue";
                                                         class="invalid-feedback"
                                                     >
                                                         <p
-                                                            v-if="errors.category_id"
+                                                            v-if="
+                                                                errors.category_id
+                                                            "
                                                             class="text-danger"
                                                         >
                                                             {{
-                                                                errors.category_id[0]
+                                                                errors
+                                                                    .category_id[0]
                                                             }}
                                                         </p>
                                                     </div>
@@ -703,7 +749,7 @@ import Bottom from "../components/Bottom.vue";
                                                 <button
                                                     class="btn btn-outline-success w-100 btn-sm"
                                                 >
-                                                    Potrvrdi
+                                                    Potvrdi
                                                 </button>
                                             </form>
                                         </div>
@@ -964,7 +1010,6 @@ import Bottom from "../components/Bottom.vue";
                 </div>
             </div>
         </div>
-
     </div>
 
     <Bottom />
@@ -1004,8 +1049,8 @@ export default {
                 cijena: "",
             },
             knjigaId: "",
-            user:[],
-            spinner: true
+            user: [],
+            spinner: true,
         };
     },
     created() {
@@ -1211,7 +1256,8 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error);
-                }).finally(() => {
+                })
+                .finally(() => {
                     this.spinner = false;
                 });
         },
@@ -1226,5 +1272,12 @@ export default {
 
 .centered-content {
     vertical-align: middle;
+}
+
+.items-table {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 15px;
 }
 </style>

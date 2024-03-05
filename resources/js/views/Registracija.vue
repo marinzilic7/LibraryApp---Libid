@@ -107,7 +107,7 @@ import axios from "axios";
                         ></span
                     >
                 </p>
-                <div class="mt-3 alert alert-info" v-if="uspjesnaPrijava">
+                <div class="mt-3 alert alert-info text-center" v-if="uspjesnaPrijava">
                     Registracija je uspješna
                 </div>
             </form>
